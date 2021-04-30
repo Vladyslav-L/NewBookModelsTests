@@ -129,7 +129,7 @@ namespace NewBookModelsTests
             _webDriver.FindElement(By.CssSelector(
                "[class^=SignupForm__submitButton]")).Click();                
 
-            var result = _webDriver.FindElement(By.CssSelector(
+            var result = _webDriver.FindElement(By.XPath(
                 "//*[contains(@name,'last_name')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
 
             Assert.AreEqual("Required", result); 
@@ -157,6 +157,18 @@ namespace NewBookModelsTests
                 "//*[contains(@name,'password')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
 
             Assert.AreEqual("Invalid password format", result); 
+        }
+
+         [Test]
+        public void ErrorMessageIfPhoneNumberIsNullForRegistation()
+        {
+            _webDriver.FindElement(By.CssSelector(
+               "[class^=SignupForm__submitButton]")).Click();                
+
+            var result = _webDriver.FindElement(By.XPath(
+                "//*[contains(@name,'phone_number')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
+
+            Assert.AreEqual("Invalid phone format", result); 
         }
 
         [Test]
