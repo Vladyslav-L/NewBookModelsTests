@@ -25,13 +25,13 @@ namespace NewBookModelsTests
 
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(7);
             _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
+
+            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/join");
         }
 
         [Test]
         public void FullRegistationTest()
-        {
-            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/join");  
-
+        {        
             var searchFieldFirstName = _webDriver.FindElement(By.CssSelector(
                 "[name=first_name]"));
 
@@ -109,27 +109,59 @@ namespace NewBookModelsTests
         }
 
         [Test]
-        public void ValidFirstNameForRegistation()
-        {
-            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/join");
-
+        public void ErrorMessageIfFirstNameIsNullForRegistation()
+        {       
            _webDriver.FindElement(By.CssSelector(
                 "[name=first_name]")).Click();
-           
+
             _webDriver.FindElement(By.CssSelector(
-                "[class^=FormErrorText__error]")).GetAttribute(Text);
-            
+                "[name=last_name]")).Click();
 
-            Assert.AreEqual("Required", Text);
+            var result = _webDriver.FindElement(By.CssSelector(
+                "[class^=FormErrorText__error]")).GetProperty("innerText");            
 
-           
-
+            Assert.AreEqual("Required", result); 
         }
 
         [Test]
-        public void Half egistration()
+        public void ErrorMessageIfLastNameIsNullForRegistation()
         {
-            
+            _webDriver.FindElement(By.CssSelector(
+               "[class^=SignupForm__submitButton]")).Click();                
+
+            var result = _webDriver.FindElement(By.CssSelector(
+                "//*[contains(@name,'last_name')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
+
+            Assert.AreEqual("Required", result); 
+        }
+
+         [Test]
+        public void ErrorMessageIfEmailIsNullForRegistation()
+        {
+            _webDriver.FindElement(By.CssSelector(
+               "[class^=SignupForm__submitButton]")).Click();                
+
+            var result = _webDriver.FindElement(By.XPath(
+                "//*[contains(@name,'email')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
+
+            Assert.AreEqual("Required", result); 
+        }
+
+         [Test]
+        public void ErrorMessageIfPasswordIsNullForRegistation()
+        {
+            _webDriver.FindElement(By.CssSelector(
+               "[class^=SignupForm__submitButton]")).Click();                
+
+            var result = _webDriver.FindElement(By.XPath(
+                "//*[contains(@name,'password')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
+
+            Assert.AreEqual("Invalid password format", result); 
+        }
+
+        [Test]
+        public void HalfRegistration()
+        {            
             _webDriver.Navigate().GoToUrl("https://newbookmodels.com/join");
 
             var searchFieldFirstName = _webDriver.FindElement(By.CssSelector(
@@ -148,7 +180,7 @@ namespace NewBookModelsTests
             var currentDate = new DateTime();
             string stringDate = currentDate.ToString("yyyyMMddHHmm");
 
-            searchFieldEmail.SendKeys($"{currentDate}@gmail.com");
+            searchFieldEmail.SendKeys($"{stringDate}@gmail.com");
 
             var searchFieldPassword = _webDriver.FindElement(By.CssSelector(
                "[name=password]"));
