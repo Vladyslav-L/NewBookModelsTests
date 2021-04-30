@@ -10,12 +10,12 @@ using System.Globalization;
 
 namespace NewBookModelsTests
 {
-    
+
 
     public class RegistrationTests
     {
         private IWebDriver _webDriver;
-        private IWebDriver _webDriver1;        
+        private string Text { get; }
 
         [SetUp]
         public void Setup()
@@ -25,62 +25,60 @@ namespace NewBookModelsTests
 
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(7);
             _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
-
-
         }
 
         [Test]
-        public void Test1()
+        public void FullRegistationTest()
         {
             _webDriver.Navigate().GoToUrl("https://newbookmodels.com/join");  
 
-            var searchField1 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldFirstName = _webDriver.FindElement(By.CssSelector(
                 "[name=first_name]"));
 
-            searchField1.SendKeys("Vitalik");
+            searchFieldFirstName.SendKeys("Vitalik");
 
-            var searchField2 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldLastName = _webDriver.FindElement(By.CssSelector(
                 "[name=last_name]"));
 
-            searchField2.SendKeys("Pupkin");
+            searchFieldLastName.SendKeys("Pupkin");
 
-            var searchField3 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldEmail = _webDriver.FindElement(By.CssSelector(
                "[name=email]"));
 
             var currentDate = DateTime.Now;
             string stringDate = currentDate.ToString("yyyyMMddHHmm");
 
-            searchField3.SendKeys($"{stringDate}@gmail.com");
+            searchFieldEmail.SendKeys($"{stringDate}@gmail.com");
 
-            var searchField4 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldPassword = _webDriver.FindElement(By.CssSelector(
                "[name=password]"));
 
-            searchField4.SendKeys("QwE147AsD@-");
+            searchFieldPassword.SendKeys("QwE147AsD@-");
 
-            var searchField5 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldPasswordConfirm = _webDriver.FindElement(By.CssSelector(
               "[name=password_confirm]"));
 
-            searchField5.SendKeys("QwE147AsD@-");
+            searchFieldPasswordConfirm.SendKeys("QwE147AsD@-");
 
-            var searchField6 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldPhoneNumber = _webDriver.FindElement(By.CssSelector(
              "[name=phone_number]"));
 
-            searchField6.SendKeys("555.867.5309");
+            searchFieldPhoneNumber.SendKeys("555.867.5309");
 
             _webDriver.FindElement(By.CssSelector(
              "[class^=SignupForm__submitButton]")).Click();
                       
             Thread.Sleep(1000);
 
-            var searchField7 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldCompanyName = _webDriver.FindElement(By.CssSelector(
              "[name=company_name]"));
 
-            searchField5.SendKeys(stringDate);
+            searchFieldCompanyName.SendKeys(stringDate);
 
-             var searchField8 = _webDriver.FindElement(By.CssSelector(
+             var searchFieldCompanyWebsite = _webDriver.FindElement(By.CssSelector(
              "[name=company_website]"));
 
-            searchField8.SendKeys("https://newbookmodels.com/");
+            searchFieldCompanyWebsite.SendKeys("https://newbookmodels.com/");
 
              _webDriver.FindElement(By.CssSelector(
              "[name=industry]")).Click();
@@ -88,115 +86,93 @@ namespace NewBookModelsTests
             _webDriver.FindElement(By.CssSelector(
              "[class^=Select__optionText]")).Click();
 
-            var searchField9 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldLocation = _webDriver.FindElement(By.CssSelector(
             "[name=location]"));
 
-            searchField9.SendKeys("2459 Bentley Ave. Los Angeles CA 90025");
+            searchFieldLocation.SendKeys("2459 Bentley Ave. Los Angeles CA 90025");
+
+            Thread.Sleep(2000);
+
+            _webDriver.FindElement(By.CssSelector(
+            "[class=pac-matched]")).Click();
+
+            Thread.Sleep(1000);
+
+            _webDriver.FindElement(By.CssSelector(
+                 "[class^=SignupCompanyForm__submitButton]")).Click();
             
-
-
-
-            searchField9.SendKeys("https://newbookmodels.com/");
-
-
-
-
+            Thread.Sleep(2000);
 
             var actualResult = _webDriver.Url;     
             
-            Assert.AreEqual("https://newbookmodels.com/auth/signin?goBackUrl=%2Fjoin%2Fcompany", actualResult);
+            Assert.AreEqual("https://newbookmodels.com/explore", actualResult);
         }
 
         [Test]
-        public void Test2()
+        public void ValidFirstNameForRegistation()
+        {
+            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/join");
+
+           _webDriver.FindElement(By.CssSelector(
+                "[name=first_name]")).Click();
+           
+            _webDriver.FindElement(By.CssSelector(
+                "[class^=FormErrorText__error]")).GetAttribute(Text);
+            
+
+            Assert.AreEqual("Required", Text);
+
+           
+
+        }
+
+        [Test]
+        public void Half egistration()
         {
             
             _webDriver.Navigate().GoToUrl("https://newbookmodels.com/join");
 
-            var searchField1 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldFirstName = _webDriver.FindElement(By.CssSelector(
                 "[name=first_name]"));
 
-            searchField1.SendKeys("Vitalik");
+            searchFieldFirstName.SendKeys("Vitalik");
 
-            var searchField2 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldLastName = _webDriver.FindElement(By.CssSelector(
                 "[name=last_name]"));
 
-            searchField2.SendKeys("Pupkin");
+            searchFieldLastName.SendKeys("Pupkin");
 
-            var searchField3 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldEmail = _webDriver.FindElement(By.CssSelector(
                "[name=email]"));
 
             var currentDate = new DateTime();
             string stringDate = currentDate.ToString("yyyyMMddHHmm");
 
-            searchField3.SendKeys($"{currentDate}@gmail.com");
+            searchFieldEmail.SendKeys($"{currentDate}@gmail.com");
 
-            var searchField4 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldPassword = _webDriver.FindElement(By.CssSelector(
                "[name=password]"));
 
-            searchField4.SendKeys("QwE147AsD@-");
+            searchFieldPassword.SendKeys("QwE147AsD@-");
 
-            var searchField5 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldPasswordConfirm = _webDriver.FindElement(By.CssSelector(
               "[name=password_confirm]"));
 
-            searchField5.SendKeys("QwE147AsD@-");
+            searchFieldPasswordConfirm.SendKeys("QwE147AsD@-");
 
-            var searchField6 = _webDriver.FindElement(By.CssSelector(
+            var searchFieldPhoneNumber = _webDriver.FindElement(By.CssSelector(
              "[name=phone_number]"));
 
-            searchField6.SendKeys("555.867.5309");
+            searchFieldPhoneNumber.SendKeys("555.867.5309");
 
             _webDriver.FindElement(By.CssSelector(
              "[class^=SignupForm__submitButton]")).Click();
-
 
             Thread.Sleep(5000);
 
             var actualResult = _webDriver.Url;
 
             Assert.AreEqual("https://newbookmodels.com/join/company", actualResult);
-        }
-
-
-    }
-
-    class AuthorizationTests
-    {
-        private IWebDriver _webDriver;
-
-        [SetUp]
-        public void Setup()
-        {
-            new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
-            _webDriver = new ChromeDriver();
-
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(7);
-            _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
-        }
-
-        [Test]
-        public void Test2()
-        {
-            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/auth/signin");
-
-            var searchField1 = _webDriver.FindElement(By.CssSelector(
-               "[name=email]"));
-
-            searchField1.SendKeys("currentDate@gmail.com");
-
-            var searchField2 = _webDriver.FindElement(By.CssSelector(
-               "[name=password]"));
-
-            searchField2.SendKeys("QwE147AsD@-");
-
-            _webDriver.FindElement(By.CssSelector(
-               "[class^=SignInForm__submitButton]")).Click();
-
-            Thread.Sleep(5000);
-
-            var actualResult = _webDriver.Url;           
-
-            Assert.AreEqual("https://newbookmodels.com/join/company?goBackUrl=%2Fexplore", actualResult);
         }
     }
 }
