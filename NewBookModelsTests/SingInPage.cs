@@ -2,14 +2,14 @@
 
 namespace NewBookModelsTests
 {
-    class SingInPage
+    public class SingInPage
     {
         private readonly IWebDriver _webDriver;
 
         private static By _emailField = By.CssSelector("input[type=email]");
         private static By _passwordlField = By.CssSelector("input[type=password]");
         private static By _loginField = By.CssSelector("class^=SingInForm__submitButton]");
-        private static By _ExceptionMessageAccountBlocked = By.XPath("//*[contains(@class, 'SignInForm__submitButton')]/../../div[contains(@class,'PageForm')][last()]");
+        private static By _exceptionMessageAccountBlocked = By.XPath("//*[contains(@class, 'SignInForm__submitButton')]/../../div[contains(@class,'PageForm')][last()]");
 
         public SingInPage(IWebDriver webDriver)
         {
@@ -38,6 +38,6 @@ namespace NewBookModelsTests
            _webDriver.FindElement(_loginField).Click();
 
         public string GetExceptionMessageAccountBlocked() =>
-            _webDriver.FindElement(_ExceptionMessageAccountBlocked).Text;
+            _webDriver.FindElement(_exceptionMessageAccountBlocked).Text;
     }
 }

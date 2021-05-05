@@ -9,7 +9,7 @@ using WebDriverManager.Helpers;
 
 namespace NewBookModelsTests
 {
-    class AuthorizationTests
+    public class AuthorizationTests
     {
         private IWebDriver _webDriver;
 
