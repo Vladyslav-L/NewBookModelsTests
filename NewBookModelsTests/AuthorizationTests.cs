@@ -38,7 +38,7 @@ namespace NewBookModelsTests
         }
 
         [Test]
-        public void ErrorAuthorization()
+        public void CheckAuthorizationExceptionMessage()
         {
             var singInPage = new SingInPage(_webDriver);
             singInPage.GoToSingInPage()

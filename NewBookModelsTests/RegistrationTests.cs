@@ -21,8 +21,7 @@ namespace NewBookModelsTests
             new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
             _webDriver = new ChromeDriver();
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(7);
-            _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
-            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/join");
+            _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);            
         }
 
         [Test]
@@ -166,27 +165,25 @@ namespace NewBookModelsTests
         }
 
          [Test]
-        public void ErrorMessageIfPasswordIsNullForRegistation()
+        public void CheckExceptionMessageInvalidPassword()
         {
-            _webDriver.FindElement(By.CssSelector(
-               "[class^=SignupForm__submitButton]")).Click();                
+            var registrationInPage = new RegistrationInPage(_webDriver);
+            registrationInPage.GoToRegistrationInPage();           
+            registrationInPage.ClickNextButton();
+            var actualMessage = registrationInPage.GetExceptionMessageInvalidPassword();
 
-            var result = _webDriver.FindElement(By.XPath(
-                "//*[contains(@name,'password')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
-
-            Assert.AreEqual("Invalid password format", result); 
+            Assert.AreEqual("Invalid password format", actualMessage);            
         }
 
          [Test]
-        public void ErrorMessageIfPhoneNumberIsNullForRegistation()
+        public void CheckExceptionMessageInvalidPhoneNumber()
         {
-            _webDriver.FindElement(By.CssSelector(
-               "[class^=SignupForm__submitButton]")).Click();                
+            var registrationInPage = new RegistrationInPage(_webDriver);
+            registrationInPage.GoToRegistrationInPage();
+            registrationInPage.ClickNextButton();
+            var actualMessage = registrationInPage.GetExceptionMessageInvalidPhoneFormat();
 
-            var result = _webDriver.FindElement(By.XPath(
-                "//*[contains(@name,'phone_number')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
-
-            Assert.AreEqual("Invalid phone format", result); 
+            Assert.AreEqual("Invalid phone format", actualMessage);
         }
 
         [Test]

@@ -12,7 +12,7 @@ namespace NewBookModelsTests
         private static By _passwordField = By.CssSelector("input[type=password]");
         private static By _passwordConfirmField = By.CssSelector("input[type=password_confirm]");
         private static By _phoneNumberlField = By.CssSelector("input[type=phone_number]");
-        private static By _nextButton = By.CssSelector("class^=SignupForm__submitButton]");
+        private static By _nextButton = By.CssSelector("[class^=SignupForm__submitButton]");
         private static By _companyNameField = By.CssSelector("input[type=company_name]");
         private static By _companyWebsiteField = By.CssSelector("input[type=company_website]");
         private static By _industryField = By.CssSelector("input[type=industry]");
@@ -20,7 +20,10 @@ namespace NewBookModelsTests
         private static By _locationField = By.CssSelector("input[type=location]");
         private static By _pacMatchedField = By.CssSelector("[class=pac-matched]");
         private static By _signupCompanyFormButton = By.CssSelector("[class^=SignupCompanyForm__submitButton]");
-        //private static By _ExceptionMessageAccountBlocked = By.XPath(
+        private static By _ExceptionMessageForNullLastName = By.XPath("//*[contains(@name,'last_name')]/../div[contains(@class,'FormErrorText')]");
+        private static By _ExceptionMessageForNullEmail = By.XPath("//*[contains(@name,'email')]/../div[contains(@class,'FormErrorText')]");
+        private static By _ExceptionMessageForInvalidPassword = By.XPath("//*[contains(@name,'password')]/../div[contains(@class,'FormErrorText')]");
+        private static By _ExceptionMessageForInvalidPhoneNumber = By.XPath("//*[contains(@name,'phone_number')]/../div[contains(@class,'FormErrorText')]");
 
         public RegistrationInPage(IWebDriver webDriver)
         {
@@ -107,5 +110,18 @@ namespace NewBookModelsTests
 
         public void ClickSignupCompanyFormButton() =>
            _webDriver.FindElement(_signupCompanyFormButton).Click();
+
+        public string GetExceptionMessageRequiredLastName() =>
+            _webDriver.FindElement(_ExceptionMessageForNullLastName).Text;
+        
+        public string GetExceptionMessageRequiredEmail() =>
+            _webDriver.FindElement(_ExceptionMessageForNullEmail).GetProperty("innerText");
+        
+        public string GetExceptionMessageInvalidPassword() =>
+                    _webDriver.FindElement(_ExceptionMessageForInvalidPassword).Text;
+
+        public string GetExceptionMessageInvalidPhoneFormat() =>
+                    _webDriver.FindElement(_ExceptionMessageForInvalidPhoneNumber).Text;
+        
     }
 }
