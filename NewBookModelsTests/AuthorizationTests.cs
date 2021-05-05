@@ -26,54 +26,28 @@ namespace NewBookModelsTests
         [Test]
         public void SuccessfulAuthorization()
         {
-            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/auth/signin");
+            var singInPage = new SingInPage(_webDriver);
+            singInPage.GoToSingInPage()
+                .SetEmail("currentDate@gmail.com")
+                .SetPassword("QwE147AsD@-")
+                .ClickSingUp();
 
-            var searchFieldEmail = _webDriver.FindElement(By.CssSelector(
-               "[name=email]"));
+            var actualMessage = _webDriver.Url;          
 
-            searchFieldEmail.SendKeys("currentDate@gmail.com");
-
-            var searchFieldPassword = _webDriver.FindElement(By.CssSelector(
-               "[name=password]"));
-
-            searchFieldPassword.SendKeys("QwE147AsD@-");
-
-            _webDriver.FindElement(By.CssSelector(
-               "[class^=SignInForm__submitButton]")).Click();
-
-            Thread.Sleep(5000);
-
-            var actualResult = _webDriver.Url;           
-
-            Assert.AreEqual("https://newbookmodels.com/join/company?goBackUrl=%2Fexplore", actualResult);
+            Assert.AreEqual("https://newbookmodels.com/join/company?goBackUrl=%2Fexplore", actualMessage);           
         }
+
         [Test]
         public void ErrorAuthorization()
         {
-            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/auth/signin");
+            var singInPage = new SingInPage(_webDriver);
+            singInPage.GoToSingInPage()
+                .SetEmail("currentDate@gmail.com")
+                .SetPassword("QwE147AsD@-")
+                .ClickSingUp();
+            var actualMessage = singInPage.GetExceptionMessageAccountBlocked();
 
-            var searchFieldEmail = _webDriver.FindElement(By.CssSelector(
-               "[name=email]"));
-
-            searchFieldEmail.SendKeys("currentDate@gmail.com");
-
-            var searchFieldPassword = _webDriver.FindElement(By.CssSelector(
-               "[name=password]"));
-
-            searchFieldPassword.SendKeys("QwE147AsD@-");
-
-            _webDriver.FindElement(By.CssSelector(
-               "[class^=SignInForm__submitButton]")).Click();
-
-            Thread.Sleep(5000);
-
-            var errorMessage = _webDriver.FindElement(By.XPath(
-               "//*[contains(@class, 'SignInForm__submitButton')]/../../div[contains(@class,'PageForm')][last()]")).GetProperty("innerText");
-                       
-               
-
-            Assert.AreEqual("User account is blocked.", errorMessage);
+            Assert.AreEqual("User account is blocked.", actualMessage);           
         }
-
     }
 }
