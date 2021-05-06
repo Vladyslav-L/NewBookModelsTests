@@ -10,6 +10,7 @@ using System.Globalization;
 
 namespace NewBookModelsTests
 {
+
     public class RegistrationTests
     {
         private IWebDriver _webDriver;
@@ -50,79 +51,7 @@ namespace NewBookModelsTests
 
             var actualMessage = _webDriver.Url;
 
-            Assert.AreEqual("https://newbookmodels.com/join/company?goBackUrl=%2Fexplore", actualMessage);
-
-            //searchFieldFirstName.SendKeys("Vitalik");
-
-            //var searchFieldLastName = _webDriver.FindElement(By.CssSelector(
-            //    "[name=last_name]"));
-
-            //searchFieldLastName.SendKeys("Pupkin");
-
-            //var searchFieldEmail = _webDriver.FindElement(By.CssSelector(
-            //   "[name=email]"));
-
-            //var currentDate = DateTime.Now;
-            //string stringDate = currentDate.ToString("yyyyMMddHHmm");
-
-            //searchFieldEmail.SendKeys($"{stringDate}@gmail.com");
-
-            //var searchFieldPassword = _webDriver.FindElement(By.CssSelector(
-            //   "[name=password]"));
-
-            //searchFieldPassword.SendKeys("QwE147AsD@-");
-
-            //var searchFieldPasswordConfirm = _webDriver.FindElement(By.CssSelector(
-            //  "[name=password_confirm]"));
-
-            //searchFieldPasswordConfirm.SendKeys("QwE147AsD@-");
-
-            //var searchFieldPhoneNumber = _webDriver.FindElement(By.CssSelector(
-            // "[name=phone_number]"));
-
-            //searchFieldPhoneNumber.SendKeys("555.867.5309");
-
-            //_webDriver.FindElement(By.CssSelector(
-            // "[class^=SignupForm__submitButton]")).Click();
-                      
-            //Thread.Sleep(1000);
-
-            //var searchFieldCompanyName = _webDriver.FindElement(By.CssSelector(
-            // "[name=company_name]"));
-
-            //searchFieldCompanyName.SendKeys(stringDate);
-
-            // var searchFieldCompanyWebsite = _webDriver.FindElement(By.CssSelector(
-            // "[name=company_website]"));
-
-            //searchFieldCompanyWebsite.SendKeys("https://newbookmodels.com/");
-
-            // _webDriver.FindElement(By.CssSelector(
-            // "[name=industry]")).Click();
-
-            //_webDriver.FindElement(By.CssSelector(
-            // "[class^=Select__optionText]")).Click();
-
-            //var searchFieldLocation = _webDriver.FindElement(By.CssSelector(
-            //"[name=location]"));
-
-            //searchFieldLocation.SendKeys("2459 Bentley Ave. Los Angeles CA 90025");
-
-            //Thread.Sleep(2000);
-
-            //_webDriver.FindElement(By.CssSelector(
-            //"[class=pac-matched]")).Click();
-
-            //Thread.Sleep(1000);
-
-            //_webDriver.FindElement(By.CssSelector(
-            //     "[class^=SignupCompanyForm__submitButton]")).Click();
-            
-            //Thread.Sleep(2000);
-
-            //var actualResult = _webDriver.Url;     
-            
-            //Assert.AreEqual("https://newbookmodels.com/explore", actualResult);
+            Assert.AreEqual("https://newbookmodels.com/join/company?goBackUrl=%2Fexplore", actualMessage);            
         }
 
         [Test]
