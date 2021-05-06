@@ -37,7 +37,7 @@ namespace NewBookModelsTests
             return this;
         }
 
-         public RegistrationInPage GoToNextRegistrationInPage()
+        public RegistrationInPage GoToNextRegistrationInPage()
         {
             _webDriver.Navigate().GoToUrl("https://newbookmodels.com/join/company");
             return this;
@@ -103,8 +103,8 @@ namespace NewBookModelsTests
         public void ClickIndustry() =>
             _webDriver.FindElement(_industryField).Click();
 
-         public void ClickLocation() =>
-            _webDriver.FindElement(_locationField).Click();
+        public void ClickLocation() =>
+           _webDriver.FindElement(_locationField).Click();
 
         public void ClickOptionText() =>
             _webDriver.FindElement(_optionTextField).Click();
@@ -118,17 +118,16 @@ namespace NewBookModelsTests
         public string GetExceptionMessageRequiredFirstName() =>
             _webDriver.FindElement(_ExceptionMessageForNullLastName).Text;
 
-         public string GetExceptionMessageRequiredLastName() =>
-            _webDriver.FindElement(_ExceptionMessageForNullLastName).Text;
-        
+        public string GetExceptionMessageRequiredLastName() =>
+           _webDriver.FindElement(_ExceptionMessageForNullLastName).Text;
+
         public string GetExceptionMessageRequiredEmail() =>
             _webDriver.FindElement(_ExceptionMessageForNullEmail).GetProperty("innerText");
-        
+
         public string GetExceptionMessageInvalidPassword() =>
                     _webDriver.FindElement(_ExceptionMessageForInvalidPassword).Text;
 
         public string GetExceptionMessageInvalidPhoneFormat() =>
                     _webDriver.FindElement(_ExceptionMessageForInvalidPhoneNumber).Text;
-        
     }
 }

@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 using System;
 using System.Threading;
 using WebDriverManager;
@@ -10,7 +9,7 @@ using WebDriverManager.Helpers;
 
 namespace NewBookModelsTests
 {
-    public class AuthorizationTests
+    public class LogOutTests
     {
         private IWebDriver _webDriver;
 
@@ -19,39 +18,28 @@ namespace NewBookModelsTests
         {
             new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
             _webDriver = new ChromeDriver();
-
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(7);
             _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
-        }
 
-        [Test]
-        public void CheckSuccessfulAuthorization()
-        {
             var singInPage = new SingInPage(_webDriver);
             singInPage.GoToSingInPage()
                 .SetEmail("StepanBizumm188@gmail.com")
                 .SetPassword("QwE147AsD@-")
                 .ClickSingUp();
-            Thread.Sleep(1000);
-
-            var actualMessage = _webDriver.Url;          
-
-            Assert.AreEqual("https://newbookmodels.com/join/company?goBackUrl=%2Fexplore", actualMessage);           
+            Thread.Sleep(3000);
         }
 
         [Test]
-        public void CheckAuthorizationExceptionMessage()
+        public void CheckSuccessfulLogOut()
         {
-            var singInPage = new SingInPage(_webDriver);
-            singInPage.GoToSingInPage()
-                .SetEmail("currentDate@gmail.com")
-                .SetPassword("QwE147AsD@-")
-                .ClickSingUp();
+            var accountSettingsInPage = new AccountSettingsInPage(_webDriver);
+            accountSettingsInPage.GoToSingInPage();
+            accountSettingsInPage.ClickLogout();
             Thread.Sleep(1000);
-            
-            var actualMessage = singInPage.GetExceptionMessageAccountBlocked();
 
-            Assert.AreEqual("User account is blocked.", actualMessage);           
+             var actualResult = _webDriver.Url;
+
+            Assert.AreEqual("https://newbookmodels.com/auth/signin", actualResult);
         }
     }
 }

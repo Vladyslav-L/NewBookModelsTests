@@ -26,7 +26,7 @@ namespace NewBookModelsTests
         }
 
         [Test]
-        public void FullRegistationTest()
+        public void CheckSuccessfulFullRegistation()
         {
             var currentDate = DateTime.Now;
             string stringDate = currentDate.ToString("yyyyMMddHHmm");
@@ -52,9 +52,9 @@ namespace NewBookModelsTests
             registrationInPage.ClickSignupCompanyFormButton();
             Thread.Sleep(1000);
 
-            var actualMessage = _webDriver.Url;
+            var actualResult = _webDriver.Url;
 
-            Assert.AreEqual("https://newbookmodels.com/explore", actualMessage);            
+            Assert.AreEqual("https://newbookmodels.com/explore", actualResult);            
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace NewBookModelsTests
         }
 
         [Test]
-        public void HalfRegistration()
+        public void CheckSuccessfulHalfRegistration()
         {
             var currentDate = DateTime.Now;
             string stringDate = currentDate.ToString("yyyyMMddHHmm");
