@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Threading;
 using WebDriverManager;
@@ -28,9 +29,10 @@ namespace NewBookModelsTests
         {
             var singInPage = new SingInPage(_webDriver);
             singInPage.GoToSingInPage()
-                .SetEmail("currentDate@gmail.com")
+                .SetEmail("StepanBizumm188@gmail.com")
                 .SetPassword("QwE147AsD@-")
                 .ClickSingUp();
+            Thread.Sleep(1000);
 
             var actualMessage = _webDriver.Url;          
 
@@ -45,6 +47,8 @@ namespace NewBookModelsTests
                 .SetEmail("currentDate@gmail.com")
                 .SetPassword("QwE147AsD@-")
                 .ClickSingUp();
+            Thread.Sleep(1000);
+            
             var actualMessage = singInPage.GetExceptionMessageAccountBlocked();
 
             Assert.AreEqual("User account is blocked.", actualMessage);           
