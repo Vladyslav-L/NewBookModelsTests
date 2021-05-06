@@ -22,7 +22,7 @@ namespace NewBookModelsTests
             new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
             _webDriver = new ChromeDriver();
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(7);
-            _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);            
+            _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);     
         }
 
         [Test]
@@ -39,58 +39,58 @@ namespace NewBookModelsTests
                 .SetPassword("QwE147AsD@-")
                 .SetPasswordConfirm("QwE147AsD@-")
                 .SetPhoneNumber("555.867.5309")
-                .ClickNextButton();
-            registrationInPage.GoToNextRegistrationInPage()
-                .SetCompanyName("fgfdgfd")
-                .SetCompanyWebsite("https://newbookmodels.com/")
-                .SetLocation("2459 Bentley Ave. Los Angeles CA 90025")
-                .ClickIndustry();
-            registrationInPage.ClickOptionText();
+                .ClickNextButton();            
+            registrationInPage.SetCompanyName("fgfdgfd");
+            registrationInPage.SetCompanyWebsite("https://newbookmodels.com/");
+            registrationInPage.SetLocation("2459 Bentley Ave. Los Angeles CA 90025");
+            registrationInPage.ClickLocation();
+            Thread.Sleep(1000);
             registrationInPage.ClickPacMatched();
-            registrationInPage.ClickSignupCompanyFormButton();            
+            registrationInPage.ClickIndustry();
+            Thread.Sleep(1000);
+            registrationInPage.ClickOptionText();            
+            registrationInPage.ClickSignupCompanyFormButton();
+            Thread.Sleep(1000);
 
             var actualMessage = _webDriver.Url;
 
-            Assert.AreEqual("https://newbookmodels.com/join/company?goBackUrl=%2Fexplore", actualMessage);            
+            Assert.AreEqual("https://newbookmodels.com/explore", actualMessage);            
         }
 
         [Test]
-        public void ErrorMessageIfFirstNameIsNullForRegistation()
-        {       
-           _webDriver.FindElement(By.CssSelector(
-                "[name=first_name]")).Click();
-
-            _webDriver.FindElement(By.CssSelector(
-                "[name=last_name]")).Click();
-
-            var result = _webDriver.FindElement(By.CssSelector(
-                "[class^=FormErrorText__error]")).GetProperty("innerText");            
-
-            Assert.AreEqual("Required", result); 
-        }
-
-        [Test]
-        public void ErrorMessageIfLastNameIsNullForRegistation()
+        public void CheckExceptionMessageRequiredFirstName()
         {
-            _webDriver.FindElement(By.CssSelector(
-               "[class^=SignupForm__submitButton]")).Click();                
+            var registrationInPage = new RegistrationInPage(_webDriver);
+            registrationInPage.GoToRegistrationInPage();
+            registrationInPage.ClickNextButton();
 
-            var result = _webDriver.FindElement(By.XPath(
-                "//*[contains(@name,'last_name')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
+            var actualMessage = registrationInPage.GetExceptionMessageRequiredFirstName();           
 
-            Assert.AreEqual("Required", result); 
+            Assert.AreEqual("Required", actualMessage);           
+        }
+
+        [Test]
+        public void CheckExceptionMessageRequiredLastName()
+        {
+            var registrationInPage = new RegistrationInPage(_webDriver);
+            registrationInPage.GoToRegistrationInPage();
+            registrationInPage.ClickNextButton();
+
+            var actualMessage = registrationInPage.GetExceptionMessageRequiredLastName();
+                         
+            Assert.AreEqual("Required", actualMessage); 
         }
 
          [Test]
-        public void ErrorMessageIfEmailIsNullForRegistation()
+        public void CheckExceptionMessageRequiredEmail()
         {
-            _webDriver.FindElement(By.CssSelector(
-               "[class^=SignupForm__submitButton]")).Click();                
+            var registrationInPage = new RegistrationInPage(_webDriver);
+            registrationInPage.GoToRegistrationInPage();
+            registrationInPage.ClickNextButton();
 
-            var result = _webDriver.FindElement(By.XPath(
-                "//*[contains(@name,'email')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");            
+            var actualMessage = registrationInPage.GetExceptionMessageRequiredEmail();
 
-            Assert.AreEqual("Required", result); 
+            Assert.AreEqual("Required", actualMessage);           
         }
 
          [Test]
@@ -130,7 +130,6 @@ namespace NewBookModelsTests
                 .SetPasswordConfirm("QwE147AsD@-")
                 .SetPhoneNumber("555.867.5309")
                 .ClickNextButton();
-
             Thread.Sleep(5000);
 
             var actualResult = _webDriver.Url;

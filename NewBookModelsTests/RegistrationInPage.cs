@@ -6,20 +6,21 @@ namespace NewBookModelsTests
     {
         private readonly IWebDriver _webDriver;
 
-        private static By _firstNameField = By.CssSelector("input[type=first_name]");
-        private static By _lastNameField = By.CssSelector("input[type=last_name]");
-        private static By _emailField = By.CssSelector("input[type=email]");
-        private static By _passwordField = By.CssSelector("input[type=password]");
-        private static By _passwordConfirmField = By.CssSelector("input[type=password_confirm]");
-        private static By _phoneNumberlField = By.CssSelector("input[type=phone_number]");
+        private static By _firstNameField = By.CssSelector("input[name=first_name]");
+        private static By _lastNameField = By.CssSelector("input[name=last_name]");
+        private static By _emailField = By.CssSelector("input[name=email]");
+        private static By _passwordField = By.CssSelector("input[name=password]");
+        private static By _passwordConfirmField = By.CssSelector("input[name=password_confirm]");
+        private static By _phoneNumberlField = By.CssSelector("input[name=phone_number]");
         private static By _nextButton = By.CssSelector("[class^=SignupForm__submitButton]");
-        private static By _companyNameField = By.CssSelector("input[type=company_name]");
-        private static By _companyWebsiteField = By.CssSelector("input[type=company_website]");
-        private static By _industryField = By.CssSelector("input[type=industry]");
+        private static By _companyNameField = By.CssSelector("input[name=company_name]");
+        private static By _companyWebsiteField = By.CssSelector("input[name=company_website]");
+        private static By _industryField = By.CssSelector("input[name=industry]");
         private static By _optionTextField = By.CssSelector("[class^=Select__optionText]");
-        private static By _locationField = By.CssSelector("input[type=location]");
+        private static By _locationField = By.CssSelector("input[name=location]");
         private static By _pacMatchedField = By.CssSelector("[class=pac-matched]");
-        private static By _signupCompanyFormButton = By.CssSelector("[class^=SignupCompanyForm__submitButton]");
+        private static By _signupCompanyFormButton = By.CssSelector("button[class^=SignupCompanyForm__submitButton]");
+        private static By _ExceptionMessageForNullFirstName = By.XPath("//*[contains(@name,'first_name')]/../div[contains(@class,'FormErrorText')]");
         private static By _ExceptionMessageForNullLastName = By.XPath("//*[contains(@name,'last_name')]/../div[contains(@class,'FormErrorText')]");
         private static By _ExceptionMessageForNullEmail = By.XPath("//*[contains(@name,'email')]/../div[contains(@class,'FormErrorText')]");
         private static By _ExceptionMessageForInvalidPassword = By.XPath("//*[contains(@name,'password')]/../div[contains(@class,'FormErrorText')]");
@@ -100,7 +101,10 @@ namespace NewBookModelsTests
         }
 
         public void ClickIndustry() =>
-            _webDriver.FindElement(_companyWebsiteField).Click();
+            _webDriver.FindElement(_industryField).Click();
+
+         public void ClickLocation() =>
+            _webDriver.FindElement(_locationField).Click();
 
         public void ClickOptionText() =>
             _webDriver.FindElement(_optionTextField).Click();
@@ -111,7 +115,10 @@ namespace NewBookModelsTests
         public void ClickSignupCompanyFormButton() =>
            _webDriver.FindElement(_signupCompanyFormButton).Click();
 
-        public string GetExceptionMessageRequiredLastName() =>
+        public string GetExceptionMessageRequiredFirstName() =>
+            _webDriver.FindElement(_ExceptionMessageForNullLastName).Text;
+
+         public string GetExceptionMessageRequiredLastName() =>
             _webDriver.FindElement(_ExceptionMessageForNullLastName).Text;
         
         public string GetExceptionMessageRequiredEmail() =>
