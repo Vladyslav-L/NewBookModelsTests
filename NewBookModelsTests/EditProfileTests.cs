@@ -23,8 +23,8 @@ namespace NewBookModelsTests
 
             var singInPage = new SingInPage(_webDriver);
             singInPage.GoToSingInPage()
-                .SetEmail("StepanBizumm188@gmail.com")
-                .SetPassword("QwE147AsD@-")
+                .SetEmail("LenOchkaIva195402@gmail.com")
+                .SetPassword("QwE147AsD@--")
                 .ClickSingUp();
             Thread.Sleep(3000);
         }
@@ -60,21 +60,58 @@ namespace NewBookModelsTests
             accountSettingsInPage.ClickEditPassword();
             Thread.Sleep(1000);
             accountSettingsInPage
-            .SetPassword("QwE147AsD@-")
-            .SetNewPassword("QwE147AsD@--")
-            .SetReTypeNewPassword("QwE147AsD@--");
+            .SetPassword("QwE147AsD@--")
+            .SetNewPassword("QwE147AsD@-")
+            .SetReTypeNewPassword("QwE147AsD@-");
             accountSettingsInPage.ClickSaveChanges();
             Thread.Sleep(1000);
-            accountSettingsInPage.ClickLogout();                       
+            accountSettingsInPage.ClickLogout();
             singInPage.GoToSingInPage()
-                .SetEmail("StepanBizumm188@gmail.com")
-                .SetPassword("QwE147AsD@--")
+                .SetEmail("LenOchkaIva195402@gmail.com")
+                .SetPassword("QwE147AsD@-")
                 .ClickSingUp();
             Thread.Sleep(3000);
 
             var actualMessage = _webDriver.Url;
 
             Assert.AreEqual("https://newbookmodels.com/join/company?goBackUrl=%2Fexplore", actualMessage);
+        }
+
+        [Test]
+        public void CheckSuccessfulAddCard()
+        {
+            var accountSettingsInPage = new AccountSettingsInPage(_webDriver);
+            accountSettingsInPage.GoToSingInPage();
+            Thread.Sleep(1000);
+            accountSettingsInPage
+                .SetCardNumber("4627100101654724")
+                .SetMmYy("1225")
+                .SetCvc("123")
+                .SetFullName("TEST");
+            accountSettingsInPage.ClickSaveCard();
+
+            var actualResult = accountSettingsInPage.GetCardNumber();
+
+            Assert.AreEqual("4627100101654724", actualResult);
+        }
+
+        [Test]
+        public void CheckUpdateCardErrorMessage()
+        {
+            var accountSettingsInPage = new AccountSettingsInPage(_webDriver);
+            accountSettingsInPage.GoToSingInPage();
+            Thread.Sleep(1000);
+            accountSettingsInPage
+                .SetCardNumber("4544444444444444")
+                .SetMmYy("1225")
+                .SetCvc("123")
+                .SetFullName("TEST");
+            accountSettingsInPage.ClickSaveCard();
+            Thread.Sleep(500);
+
+            var actualMessage = accountSettingsInPage.GetUpdateErrorMessage();
+
+            Assert.AreEqual("Update card info unexpected error", actualMessage);
         }
     }
 }
