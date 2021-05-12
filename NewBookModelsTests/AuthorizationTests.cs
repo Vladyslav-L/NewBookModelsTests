@@ -19,39 +19,63 @@ namespace NewBookModelsTests
         {
             new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
             _webDriver = new ChromeDriver();
-
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(7);
             _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(60);
+            _webDriver.Navigate().GoToUrl("https://newbookmodels.com/auth/signin");
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _webDriver.Quit();
         }
 
         [Test]
         public void CheckSuccessfulAuthorization()
-        {
-            var singInPage = new SingInPage(_webDriver);
-            singInPage.GoToSingInPage()
-                .SetEmail("StepanBizumm188@gmail.com")
-                .SetPassword("QwE147AsD@-")
-                .ClickSingUp();
-            Thread.Sleep(1000);
+        {            
+            var emailField = _webDriver.FindElement(By.CssSelector(("input[type=email]")));
+            emailField.SendKeys("LenOchkaIva195402@gmail.com");
+            var passwordlField = _webDriver.FindElement(By.CssSelector(("input[type=password]")));
+            passwordlField.SendKeys("QwE147AsD@--");
+            _webDriver.FindElement(By.CssSelector("[class^=SignInForm__submitButton]")).Click();
 
-            var actualMessage = _webDriver.Url;          
+            var actualResult = _webDriver.FindElement(By.XPath("//h2[contains(text(),'Final step!')]")).Text;
 
-            Assert.AreEqual("https://newbookmodels.com/join/company?goBackUrl=%2Fexplore", actualMessage);           
+            Assert.AreEqual("Final step!", actualResult);
         }
 
         [Test]
         public void CheckAuthorizationExceptionMessage()
-        {
-            var singInPage = new SingInPage(_webDriver);
-            singInPage.GoToSingInPage()
-                .SetEmail("currentDate@gmail.com")
-                .SetPassword("QwE147AsD@-")
-                .ClickSingUp();
-            Thread.Sleep(1000);
-            
-            var actualMessage = singInPage.GetExceptionMessageAccountBlocked();
+        {            
+            var emailField = _webDriver.FindElement(By.CssSelector(("input[type=email]")));
+            emailField.SendKeys("currentDate@gmail.com");
+            var passwordlField = _webDriver.FindElement(By.CssSelector(("input[type=password]")));
+            passwordlField.SendKeys("QwE147AsD@-");
+            _webDriver.FindElement(By.CssSelector("[class^=SignInForm__submitButton]")).Click();
 
-            Assert.AreEqual("User account is blocked.", actualMessage);           
+            var actualMessage = _webDriver.FindElement(By.XPath("//div[contains(text(),'User account is blocked.')]")).Text;
+
+            Assert.AreEqual("User account is blocked.", actualMessage);
+        }
+
+        [Test]
+        public void CheckExceptionMessageRequiredEmail()
+        {
+            _webDriver.FindElement(By.CssSelector("[class^=SignInForm__submitButton]")).Click();
+
+            var actualMessage = _webDriver.FindElement(By.XPath("//*[contains(@name,'email')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");
+
+            Assert.AreEqual("Required", actualMessage);
+        }
+
+         [Test]
+        public void CheckExceptionMessageInvalidPassword()
+        {
+            _webDriver.FindElement(By.CssSelector("[class^=SignInForm__submitButton]")).Click();
+
+            var actualMessage = _webDriver.FindElement(By.XPath("//*[contains(@name,'password')]/../div[contains(@class,'FormErrorText')]")).GetProperty("innerText");
+
+            Assert.AreEqual("Required", actualMessage);
         }
     }
 }
